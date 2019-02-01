@@ -4,8 +4,7 @@
 echo "Removing old files..."
 [ -f /tmp/hosts.working ] && rm -f /tmp/hosts.working
 
-## Awk regex to be inverse-matched as whitelist
-# - SolveMedia is needed for captchas on some websites
+## All Whitelists
 whitelist='/(api.solvemedia.com)/'
 
 # All Blacklists
