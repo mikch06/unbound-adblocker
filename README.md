@@ -12,10 +12,9 @@ when script is done go to router webui -> services -> unbound DNS -> general -> 
 
 include:/var/unbound/ad-blacklist.conf
 
-After that you can restart/reload unbound and it will block ads.
+After that you can restart/reload unbound and all list entries are resolved by 0.0.0.0 .
 
-
-- Please add more lists if you want. awk line will change any line taht has  something like
+- Please add more lists if you want. 
 
 This script WAS NOT originally written by me!
 I forked this repo from https://github.com/matijazezelj/unbound-adblock.
