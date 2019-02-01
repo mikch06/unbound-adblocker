@@ -4,6 +4,9 @@
 echo "Removing old files..."
 [ -f /tmp/hosts.working ] && rm -f /tmp/hosts.working
 
+## Count entries in old blacklist
+oldlines=$(cat /tmp/ad-blacklist.conf|wc -l)
+
 ## All Whitelists
 whitelist='/(api.solvemedia.com)/'
 
@@ -30,6 +33,15 @@ done
 echo "Processing Blacklist..."
 awk -v whitelist="$whitelist" '$1 ~ /^127\.|^0\./ && $2 !~ whitelist {gsub("\r",""); print tolower($2)}' /tmp/hosts.working | sort | uniq | \
 awk '{printf "server:\n", $1; printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /var/unbound/ad-blacklist.conf
+
+## Count entries in new blacklist
+newlines=$(cat /tmp/ad-blacklist.conf|wc -l)
+
+## Diff entries
+echo "Blacklist entries before:"
+echo $oldlines
+echo "Blacklist entries now:"
+echo $newlines
 
 # Clean up tempfile
 echo "Cleaning Up..."
