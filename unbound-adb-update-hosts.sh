@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## Count entries in old blacklist
-oldlines=$(cat /tmp/ad-blacklist.conf|wc -l)
+oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 
 ## Clean up any stale tempfile
 echo "Removing old files..."
@@ -34,19 +34,20 @@ done
 ## Process Blacklist, Eliminiating Duplicates, Integrating Whitelist, and Converting to unbound format
 echo "Processing Blacklist..."
 awk -v whitelist="$whitelist" '$1 ~ /^127\.|^0\./ && $2 !~ whitelist {gsub("\r",""); print tolower($2)}' /tmp/hosts.tmp | sort | uniq | \
-awk '{printf "server:\n", $1; printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /tmp/ad-blacklist.conf
+awk '{printf "server:\n", $1; printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /var/unbound/ad-blacklist.conf
 
 ## Count entries in new blacklist
-newlines=$(cat /tmp/ad-blacklist.conf|wc -l)
+newlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 
 ## Clean up tempfile
 echo "Cleaning Up..."
 rm -f '/tmp/hosts.tmp'
+echo
 echo "Done. Please Restart the DNS Resolver service from the WebUI."
 echo
 
 ## Count entries in new blacklist
-newlines=$(cat /tmp/ad-blacklist.conf|wc -l)
+newlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 
 ## Diff entries
 echo "Blacklist entries before:"
