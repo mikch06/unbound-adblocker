@@ -28,6 +28,7 @@ https://hosts-file.net/ad_servers.txt
 echo "Fetching Blacklists..."
 for url in $blacklist; do
     curl --silent $url >> "/tmp/hosts.tmp"
+    echo $url done
 done
 
 ## Process Blacklist, Eliminiating Duplicates, Integrating Whitelist, and Converting to unbound format
