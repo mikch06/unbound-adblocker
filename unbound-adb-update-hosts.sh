@@ -7,11 +7,7 @@ oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 echo "Removing old files..."
 [ -f /tmp/hosts.tmp ] && rm -f /tmp/hosts.tmp
 
-## Awk regex to be inverse-matched as whitelist
-# SolveMedia is needed for captchas on some websites
-whitelist='/(api.solvemedia.com)/'
-
-# All Blacklists
+# Ads- and Blacklists
 blacklist='
 http://winhelp2002.mvps.org/hosts.txt
 http://pgl.yoyo.org/as/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
@@ -23,7 +19,6 @@ https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
 https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
 https://hosts-file.net/ad_servers.txt
 '
-
 ## Fetch all Blacklist Files
 echo "Fetching Blacklists..."
 for url in $blacklist; do
@@ -33,7 +28,7 @@ done
 
 ## Process Blacklist, Eliminiating Duplicates, Integrating Whitelist, and Converting to unbound format
 echo "Processing Blacklist..."
-awk -v whitelist="$whitelist" '$1 ~ /^127\.|^0\./ && $2 !~ whitelist {gsub("\r",""); print tolower($2)}' /tmp/hosts.tmp | sort | uniq | \
+time cat hosts.tmp|grep '^127.0\|^0.0'|awk '{gsub("\r","")};{print $2}'|sort|uniq -ui| \
 awk '{printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /var/unbound/ad-blacklist.conf
 
 ## Count entries in new blacklist
