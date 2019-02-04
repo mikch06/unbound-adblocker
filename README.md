@@ -2,15 +2,14 @@
 
 ## For your Opnsense Firewall
 
-This script creates an ad blocking list for your unbound DNS resolver on your Opnsense Firewall<br>
-and integrates a list of Advert- and tracking server lits.
+The script creates an ad-blocking list for your unbound DNS resolver on your Opnsense Firewall.
 
 run ./unbound-adb-update-hosts.sh
 
-when script is done go to router webui -> services -> unbound DNS -> general -> advanced<br>
-Under Custom options add:
+When the script is done:
+Goto Services -> Unbound DNS -> General and include your ad-blacklist.conf
 
-include:/var/unbound/ad-blacklist.conf
+    include:/var/unbound/ad-blacklist.conf
 
 After that you can restart/reload unbound and all list entries are resolved by 0.0.0.0 .
 
