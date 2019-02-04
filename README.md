@@ -8,7 +8,8 @@ and integrates a list of Advert- and tracking server lits.
 
 run ./unbound-adb-update-hosts.sh
 
-when script is done go to router webui -> services -> unbound DNS -> general -> advanced and under Custom options add:
+when script is done go to router webui -> services -> unbound DNS -> general -> advanced<br>
+Under Custom options add:
 
 include:/var/unbound/ad-blacklist.conf
 
