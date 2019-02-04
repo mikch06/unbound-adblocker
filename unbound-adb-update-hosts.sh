@@ -26,7 +26,7 @@ for url in $blacklist; do
     echo $url done
 done
 
-## Process Blacklist, Eliminiating Duplicates, Integrating Whitelist, and Converting to unbound format
+## Process Blacklists, remove duplicates, and converting to unbound format
 echo "Processing Blacklist..."
 time cat hosts.tmp|grep '^127.0\|^0.0'|awk '{gsub("\r","")};{print $2}'|sort|uniq -ui| \
 awk '{printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /var/unbound/ad-blacklist.conf
