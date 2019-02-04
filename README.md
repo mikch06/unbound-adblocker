@@ -14,8 +14,4 @@ include:/var/unbound/ad-blacklist.conf
 
 After that you can restart/reload unbound and all list entries are resolved by 0.0.0.0 .
 
-- Please add more lists if you want. 
-
-This script WAS NOT originally written by me!
-I forked this repo from https://github.com/matijazezelj/unbound-adblock.
-Special thanks to the initiator of the update-hosts.sh script https://devinstechblog.com/block-ads-with-dns-in-opnsense/
+- Please add more lists/url's if you like. 
