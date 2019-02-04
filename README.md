@@ -3,7 +3,7 @@
 ## For you Opnsense Firewall
 
 
-This script creates an ad blocking list for your unbound DNS resolver on your Opnsense Firewall
+This script creates an ad blocking list for your unbound DNS resolver on your Opnsense Firewall<br>
 and integrates a list of Advert- and tracking server lits.
 
 run ./unbound-adb-update-hosts.sh
