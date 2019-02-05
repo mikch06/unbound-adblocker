@@ -1,4 +1,8 @@
 #!/bin/sh
+# This script downloads preconfigured ads- and blacklists and bring them in a unbound resolver
+# reading format. 
+# unbound entries will be sorted and uniqe in the ad-blacklist.conf file in your
+# /var/unbound folder.
 
 ## Count entries in old blacklist
 oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
@@ -38,8 +42,6 @@ newlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 echo "Cleaning Up..."
 rm -f '/tmp/hosts.tmp'
 echo
-echo "Done. Please Restart the DNS Resolver service from the WebUI."
-echo
 
 ## Count entries in new blacklist
 newlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
@@ -49,3 +51,6 @@ echo "Blacklist entries before:"
 echo $oldlines
 echo "Blacklist entries now:"
 echo $newlines
+
+echo "Done.*
+echo "Please Restart the DNS Resolver service from the WebUI."
