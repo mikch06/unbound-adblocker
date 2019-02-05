@@ -1,8 +1,8 @@
 #!/bin/sh
-# This script downloads preconfigured ads- and blacklists and bring them in a unbound resolver
-# reading format. 
-# unbound entries will be sorted and uniqe in the ad-blacklist.conf file in your
-# /var/unbound folder.
+# This script downloads preconfigured ads- and blacklists
+# and bring them in a unbound resolver reading format. 
+# unbound entries will be sorted and uniqe in the ad-blacklist.conf
+# file in your /var/unbound folder.
 
 ## Count entries in old blacklist
 oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
