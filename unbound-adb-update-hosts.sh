@@ -52,5 +52,5 @@ echo $oldlines
 echo "Blacklist entries now:"
 echo $newlines
 
-echo "Done.*
+echo "Done."
 echo "Please Restart the DNS Resolver service from the WebUI."
