@@ -7,6 +7,9 @@
 ## Count entries in old blacklist
 oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 
+## Backup ad-blacklist.conf
+cp /var/unbound/ad-blacklist.conf /var/unbound/ad-blacklist.conf.bak
+
 ## Clean up any stale tempfile
 echo "Removing old files..."
 [ -f /tmp/hosts.tmp ] && rm -f /tmp/hosts.tmp
