@@ -11,8 +11,8 @@ oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 cp /var/unbound/ad-blacklist.conf /var/unbound/ad-blacklist.conf.bak
 
 ## Clean up any stale tempfile
-echo "Removing old files..."
-[ -f /tmp/hosts.tmp ] && rm -f /tmp/hosts.tmp
+##echo "Removing old files..."
+##[ -f /tmp/hosts.tmp ] && rm -f /tmp/hosts.tmp
 
 # Ads- and Blacklists
 blacklist='
@@ -30,21 +30,28 @@ https://hosts-file.net/ad_servers.txt
 ## Fetch all Blacklist Files
 echo "Fetching Blacklists..."
 for url in $blacklist; do
-    curl --silent $url >> "/tmp/hosts.tmp"
+    curl --silent $url >> "/tmp/hosts-download.tmp"
     echo $url done
 done
 
-## Process Blacklists, remove duplicates, and converting to unbound format
+# Process Blacklists, filter IP and alphabetical entries.
 echo "Processing Blacklist..."
-time cat /tmp/hosts.tmp|grep '^127.0\|^0.0'|awk '{gsub("\r","")};{print $2}'|sort|uniq -ui| \
-awk '{printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /var/unbound/ad-blacklist.conf
+##time cat /tmp/hosts.tmp|grep '^127.0\|^0.0\|awk {gsub("\r","")};{print $2}'|sort|uniq -ui| \
+##awk '{printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /var/unbound/ad-blacklist.conf
+
+cat /tmp/hosts-download.tmp|grep '^127.0\|^0.0.0.0'|awk '{print $2}' > hosts-raw.tmp
+cat /tmp/hosts-download.tmp|grep '^[a-z]'|awk '{print $1}' >> hosts-raw.tmp
+
+# Combine ad-blacklist, remove duplicates, converting to unbound format
+echo "Combine ad-blacklist"
+cat /tmp/hosts-raw.tmp|sort|uniq|awk '{printf "local-data: \"%sA 0.0.0.0\"\n", $1}' > /tmp/ad-blacklist.conf
 
 ## Count entries in new blacklist
 newlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 
 ## Clean up tempfile
 echo "Cleaning Up..."
-rm -f '/tmp/hosts.tmp'
+##rm -f '/tmp/hosts.tmp'
 echo
 
 ## Count entries in new blacklist
