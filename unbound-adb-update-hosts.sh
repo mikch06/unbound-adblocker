@@ -36,7 +36,7 @@ done
 
 ## Process Blacklists, remove duplicates, and converting to unbound format
 echo "Processing Blacklist..."
-time cat /tmp/hosts.tmp|grep '^127.0\|^0.0'|awk '{gsub("\r","")};{print $2}'|sort|uniq -ui| \
+time cat /tmp/hosts.tmp|grep '^127.0\|^0.0|awk '{gsub("\r","")};{print $2}'|sort|uniq -ui| \
 awk '{printf "local-data: \"%s A 0.0.0.0\"\n", $1}' > /var/unbound/ad-blacklist.conf
 
 ## Count entries in new blacklist
