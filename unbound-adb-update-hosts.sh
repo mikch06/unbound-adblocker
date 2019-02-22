@@ -4,15 +4,9 @@
 # unbound entries will be sorted and uniqe in the ad-blacklist.conf
 # file in your /var/unbound folder.
 
-# Count entries in old blacklist
-oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
-
-## Backup ad-blacklist.conf
-cp /var/unbound/ad-blacklist.conf /var/unbound/ad-blacklist.conf.bak
-
 # Clean up any stale tempfile
-echo "Removing old files..."
-##[ -f /tmp/hosts.tmp ] && rm -f /tmp/hosts.tmp
+echo "Removing old tmp files..."
+[ -f /tmp/hosts.tmp ] && rm -f /tmp/hosts.tmp
 
 # Ads- and Blacklists
 blacklist='
@@ -34,9 +28,16 @@ for url in $blacklist; do
     echo $url done
 done
 
+# Count entries in old blacklist
+echo "Count entries in old list"
+oldlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
+
+# Backup ad-blacklist.conf
+echo "Backup old list: ad-blacklist.conf -> ad-blacklist.conf.bak"
+cp /var/unbound/ad-blacklist.conf /var/unbound/ad-blacklist.conf.bak
+
 # Process Blacklists, filter IP and alphabetical entries.
 echo "Processing Blacklist..."
-
 cat /tmp/hosts-download.tmp|grep '^127.0\|^0.0.0.0'|awk '{print $2}' > /tmp/hosts-raw.tmp
 cat /tmp/hosts-download.tmp|grep '^[a-z]'|awk '{print $1}' >> /tmp/hosts-raw.tmp
 
