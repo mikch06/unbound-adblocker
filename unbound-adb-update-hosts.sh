@@ -43,14 +43,14 @@ cat /tmp/hosts-download.tmp|grep '^[a-z]'|awk '{print $1}' >> /tmp/hosts-raw.tmp
 
 # Combine ad-blacklist, remove duplicates, converting to unbound format
 echo "Combine ad-blacklist..."
-cat /tmp/hosts-raw.tmp|awk '{gsub("\r","")};{print "local-data: " "\"" $0" A 0.0.0.0\""}'|sort|uniq > ad-blacklist.conf
+cat /tmp/hosts-raw.tmp|awk '{gsub("\r","")};{print "local-data: " "\"" $0" A 0.0.0.0\""}'|sort|uniq > /var/unbound/ad-blacklist.conf
 
 # Count entries in new blacklist
 newlines=$(cat /var/unbound/ad-blacklist.conf|wc -l)
 
 # Clean up tempfile
 echo "Cleaning Up..."
-##rm -f '/tmp/hosts.tmp'
+rm -f '/tmp/hosts.tmp'
 echo
 
 # Count entries in new blacklist
